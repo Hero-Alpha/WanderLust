@@ -5,6 +5,7 @@ const { title } = require("process");
 const path = require("path");
 const methodOverride = require("method-override");
 const ejsMate = require("ejs-mate");
+const wrapAsync = require("./utils/wrapAsync.js")
 
 const app = express();
 const port = 8080;
@@ -32,10 +33,6 @@ app.listen(8080, ()=>{
     console.log("Server listnening to port 8080");
 });
 
-//BASIC API
-app.get("/",(req, res)=>{
-    res.send("Server request accepted");
-});
 
 // ---------------------------------------------------------------------
 //INDEX ROUTE ("/listings")
@@ -55,12 +52,14 @@ app.get("/listings/new", (req, res) => {
 });
 
 
-app.post("/listings", async(req,res)=>{
-    let listing = req.body.listing;
-    let newListing = new Listing(listing);
-    await newListing.save();
-    res.redirect("/listings");
-});
+app.post("/listings", wrapAsync(async(req,res,next)=>{
+        let listing = req.body.listing;
+        let newListing = new Listing(listing);
+        await newListing.save();
+        res.redirect("/listings");
+    })
+    
+);
 
 
 // --------------------------------------------------------------------------
@@ -98,4 +97,16 @@ app.get("/listings/:id", async(req,res)=>{
     console.log(id);
     let listingData = await Listing.findById(id);
     res.render("listings/show.ejs",{ listingData });
+});
+
+// --------------------------------------------------------------------------
+// Custom error handler
+app.use((err, req, res, next)=>{
+    res.send("Something went wrong")
+});
+
+// --------------------------------------------------------------------------
+//BASIC API
+app.get("/",(req, res)=>{
+    res.send("Server request accepted");
 });
