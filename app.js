@@ -65,6 +65,7 @@ app.post("/listings", async(req,res)=>{
 
 // --------------------------------------------------------------------------
 //EDIT  - UPDATE ROUTE("listings/:id/edit")
+
 app.get("/listings/:id/edit", async(req,res)=>{
     let { id } = req.params;
     console.log(id);
@@ -80,12 +81,12 @@ app.put("/listings/:id", async(req,res)=>{
 
 // --------------------------------------------------------------------------
 //DELETE ROUTE("/listings/:id")
+
 app.delete("/listings/:id", async(req,res)=>{
     let { id } = req.params;
     await Listing.findByIdAndDelete(id);
     res.redirect("/listings");
 });
-
 
 
 // --------------------------------------------------------------------------
