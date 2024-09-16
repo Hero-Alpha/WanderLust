@@ -1,5 +1,7 @@
-WanderLust
+<b>WanderLust<b>
+<br>
 A travelling hotel enquiry and booking website
 
-Creator
-YASH KUMAR
+Creator 
+<br>
+<i>Yash Kumar<i>
