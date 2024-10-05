@@ -32,7 +32,7 @@ async function main() {
 }
 
 app.listen(8080, ()=>{
-    console.log("Server listnening to port 8080");
+    console.log("Server listening to port 8080");
 });
 
 
@@ -80,7 +80,7 @@ app.post("/listings",validateListing, wrapAsync(async(req,res,next)=>{
 // --------------------------------------------------------------------------
 //EDIT  - UPDATE ROUTE("listings/:id/edit")
 
-app.get("/listings/:id/edit",validateListing, wrapAsync(async(req,res)=>{
+app.get("/listings/:id/edit", wrapAsync(async(req,res)=>{
     let { id } = req.params;
     console.log(id);
     let listingData = await Listing.findById(id);
