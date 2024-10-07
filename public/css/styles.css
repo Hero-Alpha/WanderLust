@@ -81,6 +81,7 @@ body {
 
 .card-text {
     font-weight: 400;
+    color: black !important;
 }
 
 .container {
@@ -119,4 +120,14 @@ body {
 .btns{
     display: flex;
     width: 10vh;
+}
+
+/* review cards */
+.review-card {
+    border-radius: 8px;
+}
+
+.review-card button{
+    margin-left: 10px;
+    bottom: 5px !important;
 }
