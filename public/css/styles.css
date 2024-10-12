@@ -124,10 +124,18 @@ body {
 
 /* review cards */
 .review-card {
-    border-radius: 8px;
+    border-radius: 8px !important;
+    overflow: hidden !important;
+    max-width: 100% !important;
 }
 
-.review-card button{
-    margin-left: 10px;
-    bottom: 5px !important;
+.review-card .card-body {
+    padding: 1rem !important;
+}
+
+.review-card .card-text {
+    overflow-wrap: break-word !important;
+    word-wrap: break-word !important;
+    width: 100% !important;
+    white-space: normal !important;
 }

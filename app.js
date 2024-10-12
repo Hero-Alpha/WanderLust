@@ -1,21 +1,14 @@
 const express = require("express");
 const mongoose = require("mongoose");
-const { title } = require("process");
 const path = require("path");
 const methodOverride = require("method-override");
 const ejsMate = require("ejs-mate");
-const wrapAsync = require("./utils/wrapAsync.js")
 const ExpressError = require("./utils/ExpressError.js")
-const {listingSchema} = require("./schema.js");
-const {reviewSchema} = require("./schema.js");
-const Listing = require("./models/listing.js");
-const Review = require("./models/review.js");
 
 const listings = require("./routes/listing.js")
 const reviews = require("./routes/review.js")
 
 const app = express();
-const port = 8080;
 
 app.engine("ejs",ejsMate);
 app.set("view engine","ejs");

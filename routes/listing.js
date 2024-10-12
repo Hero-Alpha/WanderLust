@@ -9,16 +9,29 @@ const router = express.Router();
 
 // ---------------------------------------------------------------------
 // Schema validation handler
-const validateListing = (req, res, next)=>{
-    let {error} = listingSchema.validate(req.body);
-    if(error){
-        let errMsg = error.details.map((el)=> el.message).join(",");
+// const validateListing = (req, res, next)=>{
+//     let {error} = listingSchema.validate(req.body);
+//     if(error){
+//         let errMsg = error.details.map((el)=> el.message).join(",");
+//         throw new ExpressError(400, errMsg);
+//     }
+//     else{
+//         next(); 
+//     }
+// }
+
+const validateListing = (req, res, next) => {
+    const { error } = listingSchema.validate(req.body);
+    if (error) {
+        // Log the exact error message
+        console.log(error);
+        let errMsg = error.details.map(el => el.message).join(",");
         throw new ExpressError(400, errMsg);
+    } else {
+        next();
     }
-    else{
-        next(); 
-    }
-}
+};
+
 
 // ---------------------------------------------------------------------
 //INDEX ROUTE ("/listings")
@@ -53,13 +66,18 @@ router.post("/",validateListing, wrapAsync(async(req,res,next)=>{
 
 router.get("/:id/edit", wrapAsync(async(req,res)=>{
     let { id } = req.params;
-    console.log(id);
+
+    // console.log(req.body);
+
     let listingData = await Listing.findById(id);
     res.render("listings/edit",{ listingData });
 }));
 
 router.put("/:id",validateListing, wrapAsync(async(req,res)=>{
     let { id } = req.params;
+
+    console.log(req.body);
+
     await Listing.findByIdAndUpdate(id, {...req.body.listing});
     res.redirect("/listings");
 }));
