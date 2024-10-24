@@ -4,6 +4,8 @@ const path = require("path");
 const methodOverride = require("method-override");
 const ejsMate = require("ejs-mate");
 const ExpressError = require("./utils/ExpressError.js")
+const session = require("express-session");
+const flash = require("connect-flash");
 
 const listings = require("./routes/listing.js")
 const reviews = require("./routes/review.js")
@@ -17,6 +19,22 @@ app.use(express.static(path.join(__dirname,"public")));
 app.use(express.urlencoded({extended:true}));
 app.use(express.json());
 app.use(methodOverride("_method"));
+// ---------------------------------------------------------------------
+// Adding sessions
+const sessionOptions = {
+    secret : "mysecretcode",
+    resave: false,
+    saveUninitialized : true,
+    cookie:{
+        expire: Date.now() + 7 * 25 * 60 * 60 * 1000,
+        maxAge: 7 * 25 * 60 * 60 * 1000,
+        httpOnly: true
+    },
+};
+
+app.use(session(sessionOptions));
+app.use(flash());
+// ---------------------------------------------------------------------
 
 //DATABASE CONNECTION
 main()
@@ -29,10 +47,19 @@ async function main() {
     await mongoose.connect("mongodb://127.0.0.1:27017/wanderlust");
 }
 
-app.listen(8080, ()=>{
-    console.log("Server listening to port 8080");
+app.listen(3030, ()=>{
+    console.log("Server listening to port 3030");
 });
 
+// ---------------------------------------------------------------------
+// middleware for message flash
+app.use((req,res,next)=>{
+    res.locals.success = req.flash("success");
+    res.locals.error = req.flash("error");
+    res.locals.deleted = req.flash("deleted");
+    res.locals.edited = req.flash("edited");
+    next();
+});
 
 
 // ---------------------------------------------------------------------
