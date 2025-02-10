@@ -3,14 +3,18 @@ const { Schema } = mongoose;
 
 const reviewSchema = new Schema({
     comment: String,
-    rating:{
+    rating: {
         type: Number,
-        min:1,
-        max:5
+        min: 1,
+        max: 5
     },
-    createdAt:{
+    createdAt: {
         type: Date,
         default: Date.now()
+    },
+    author: {
+        type: Schema.Types.ObjectId,
+        ref: "User"
     }
 });
 

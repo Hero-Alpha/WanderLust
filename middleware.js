@@ -77,3 +77,22 @@ module.exports.isOwner = async(req, res, next) =>{
 }
 
 // ---------------------------------------------------------------------
+
+// middleware to make sure the person trying to delete the review is the author of it
+
+const reviews = require("./models/review.js");
+
+module.exports.isAuthor = async(req, res, next) =>{
+    let { id, reviewId } = req.params;
+
+    console.log(`id: ${id}, reviewId: ${reviewId}`);
+    
+    let review = await reviews.findById(reviewId);
+
+    if(!review.author.equals(res.locals.currentUser._id)){
+        req.flash("error","Permission Denied(You are not the author of the review)");
+        return res.redirect(`/listings/${id}`);
+    }
+    next();
+}
+// ---------------------------------------------------------------------
