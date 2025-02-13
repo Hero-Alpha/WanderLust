@@ -18,27 +18,25 @@ module.exports.index = async (req, res) => {
 // CREATE ROUTE CALL
 
 module.exports.create = async (req, res, next) => {
-    console.log("Request Body:", req.body);
-    console.log("Uploaded File:", req.file);
-
-    if (!req.body.listing) {
-        req.flash("error", "Error: 'listing' data is missing!");
-        return res.redirect("/listings/new");
-    }
-
+    console.log("UPLOAD RESPONSE:", req.file); 
     let url = req.file.path;
     let filename = req.file.filename;
 
+    if (!url) {
+        return res.status(400).send("Image upload failed!");
+    }
+
     let listing = req.body.listing;
     listing.owner = req.user._id;
+    listing.image = { url, filename };
 
     let newListing = new Listing(listing);
-    newListing.image = { url, filename };
     await newListing.save();
-
+    
     req.flash("success", "New Listing Created");
     res.redirect("/listings");
 };
+
 
 
 // -----------------------------------------------------------------------------------------------------------------------------------------
@@ -58,7 +56,16 @@ module.exports.check = async (req, res) => {
 module.exports.update = async (req, res) => {
     let { id } = req.params;
     console.log(req.body);
-    await Listing.findByIdAndUpdate(id, { ...req.body.listing });
+
+    let updatedListing = await Listing.findByIdAndUpdate(id, { ...req.body.listing });
+    if( typeof(req.file) != "undefined" ){
+        let url = req.file.path;
+        let filename = req.file.filename;
+    
+        updatedListing.image = { url,filename };
+        await updatedListing.save();
+    }
+
     req.flash("edited", "Listing Edited");
     res.redirect("/listings");
 }

@@ -27,6 +27,7 @@ app.use(express.static(path.join(__dirname,"public")));
 app.use(express.urlencoded({extended:true}));
 app.use(express.json());
 app.use(methodOverride("_method"));
+
 // ---------------------------------------------------------------------
 // Adding sessions
 const sessionOptions = {
@@ -42,6 +43,7 @@ const sessionOptions = {
 
 app.use(session(sessionOptions));
 app.use(flash());
+
 // ---------------------------------------------------------------------
 // Setting up session for authentication
 
@@ -64,8 +66,9 @@ async function main() {
     await mongoose.connect("mongodb://127.0.0.1:27017/wanderlust");
 }
 
-app.listen(3030, ()=>{
-    console.log("Server listening to port 3030");
+const port = 3040;
+app.listen(port, ()=>{
+    console.log(`Server listening to port ${port}`);
 });
 
 // ---------------------------------------------------------------------

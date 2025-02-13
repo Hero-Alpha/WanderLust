@@ -12,6 +12,8 @@ const storage = new CloudinaryStorage({
     params: {
       folder: 'wanderlust_DEV',
       format: async (req, file) => file.mimetype.split("/")[1],
+      resource_type: "image",
+      access_mode: "public",
     },
 });
 
