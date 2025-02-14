@@ -139,3 +139,12 @@ body {
     width: 100% !important;
     white-space: normal !important;
 }
+
+
+/* map styling */
+
+#map{
+    height: 400px;
+    width: 100%;
+    border-radius: 1rem;
+}
