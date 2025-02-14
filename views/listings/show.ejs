@@ -85,6 +85,8 @@
                 </form>
             </div>
         <% } %>
+        <% } else if ({review}) { %>
+         
         <div class=" review col-8 offset-2">
             <hr>
             <h4>All Reviews</h4>
@@ -95,7 +97,7 @@
                             <h5 class="card-title">
                                 <%= review.author.username %>
                             </h5>
-                            <p class="starability-result" data-rating="3">
+                            <p class="starability-result" data-rating="<%= review.rating %>">
                                 <p class="card-text"><%=review.comment%></p>
                             </p>
                         </div>

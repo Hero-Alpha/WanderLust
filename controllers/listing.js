@@ -1,3 +1,4 @@
+const listing = require("../models/listing");
 const Listing = require("../models/listing");
 
 
@@ -48,8 +49,14 @@ module.exports.check = async (req, res) => {
     let listingData = await Listing.findById(id);
     if (!listingData) {
         req.flash("error", "Lisitng you requested does not exist")
+        res.redirect("/listings");
     }
-    res.render("listings/edit", { listingData });
+
+    //rendering a downgraded image of the original image
+    let originalImageUrl = listingData.image.url;
+    originalImageUrl = originalImageUrl.replace("/upload", "/upload/h_250,w_270");
+
+    res.render("listings/edit", { listingData, originalImageUrl });
 }
 
 //to update the data after verification
