@@ -148,3 +148,26 @@ body {
     width: 100%;
     border-radius: 1rem;
 }
+
+
+/* navbar button styling */
+/* From Uiverse.io by cssbuttons-io */ 
+.btn {
+    cursor: pointer;
+    border-radius: 1.7rem;
+    transition: all 0.2s;
+    border: none;
+    font-family: inherit;
+    padding: .7rem 1rem .7rem 1rem !important;
+    font-size: 1.3rem !important;
+    margin: 0 3px 0 3px;
+    color: black;
+    background-color: white;
+  }
+  
+  .btn:hover {
+    background-color: #dedede;
+    font-weight: bolder;
+}
+  
+  

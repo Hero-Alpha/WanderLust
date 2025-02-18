@@ -1,9 +1,71 @@
 <% layout("/layouts/boilerplate") %>
+    <style>
+        .filters {
+            display: flex;
+            flex-direction: row;
+        }
 
-    <h3>All Listings</h3>
+        .filter {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            height: auto;
+            margin: .6rem;
+            padding-bottom: 1rem;
+            text-align: center;
+            border-bottom: 4px solid rgb(255, 255, 255);
+            transition: opacity 0.3s ease, border-bottom 0.3s ease;
+            opacity: 0.7;
+        }
+
+        .filter i {
+            font-size: 2.3rem;
+        }
+
+        .filter:hover i {
+            color: rgb(50, 50, 50);
+        }
+
+        .filter:hover {
+            opacity: 1;
+            border-bottom: 4px solid rgb(117, 117, 117);
+        }
+    </style>
+
+    <div class="filters">
+        <div class="filter">
+            <i class="fa-solid fa-water-ladder"></i>
+            Amazing pools
+        </div>
+        <div class="filter">
+            <i class="fa-solid fa-golf-ball-tee"></i>
+            Golfing
+        </div>
+        <div class="filter">
+            <i class="fa-solid fa-couch"></i>
+            Rooms
+        </div>
+        <div class="filter">
+            <i class="fa-solid fa-fire"></i>
+            Trending
+        </div>
+        <div class="filter">
+            <i class="fa-regular fa-snowflake"></i>
+            Arctic
+        </div>
+        <div class="filter">
+            <i class="fa-solid fa-mug-saucer"></i>
+            Bed & breakfasts
+        </div>
+        <div class="filter">
+            <i class="fa-solid fa-palette"></i>
+            Creative
+        </div>
+
+    </div>
 
     <!-- <div class="container"> -->
-    <div class="row row-cols-lg-4 row-cols-md-3 row-cols-sm-2 row-cols-1">
+    <div class="row row-cols-lg-4 row-cols-md-3 row-cols-sm-2 row-cols-1 mt-3">
         <% for (let listing of allListings) { %>
             <div class="col mb-4">
                 <a href="/listings/<%= listing._id %>" class="listing-link">
