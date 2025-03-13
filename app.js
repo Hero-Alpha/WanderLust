@@ -9,6 +9,7 @@ const methodOverride = require("method-override");
 const ejsMate = require("ejs-mate");
 const ExpressError = require("./utils/ExpressError.js")
 const session = require("express-session");
+const MongoStore = require("connect-mongo");
 const flash = require("connect-flash");
 const passport = require("passport");
 const LocalStrategy = require("passport-local");
@@ -29,8 +30,43 @@ app.use(express.json());
 app.use(methodOverride("_method"));
 
 // ---------------------------------------------------------------------
+//DATABASE CONNECTION
+const dbUrl = process.env.MONGO_ATLAS_URL;
+
+main()
+    .then(()=>{
+        console.log("Database connected");
+    })
+    .catch((err)=> console.log(err));
+
+    async function main() {
+    await mongoose.connect(dbUrl);
+}
+
+const port = 3040;
+app.listen(port, ()=>{
+    console.log(`Server listening to port ${port}`);
+});
+
+
+// ---------------------------------------------------------------------
 // Adding sessions
+
+const store = MongoStore.create({
+    mongoUrl: dbUrl,
+    crypto:{
+        secret: "mysecretcode",
+        touchAfter: 24*3600,
+    }
+})
+
+store.on("error", ()=>{
+    console.log("ERROR IN MONGO SESSION");
+})
+
+
 const sessionOptions = {
+    store,
     secret : "mysecretcode",
     resave: false,
     saveUninitialized : true,
@@ -55,21 +91,6 @@ passport.serializeUser(User.serializeUser());
 passport.deserializeUser(User.deserializeUser());
 // ---------------------------------------------------------------------
 
-//DATABASE CONNECTION
-main()
-    .then(()=>{
-        console.log("Database connected");
-    })
-    .catch((err)=> console.log(err));
-
-async function main() {
-    await mongoose.connect("mongodb://127.0.0.1:27017/wanderlust");
-}
-
-const port = 3040;
-app.listen(port, ()=>{
-    console.log(`Server listening to port ${port}`);
-});
 
 // ---------------------------------------------------------------------
 // middleware for message flash
