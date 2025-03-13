@@ -60,18 +60,19 @@ const store = MongoStore.create({
     }
 })
 
-store.on("error", ()=>{
-    console.log("ERROR IN MONGO SESSION");
-})
+store.on("error", (err) => {
+    console.error("ERROR IN MONGO SESSION:", err);
+});
+
 
 
 const sessionOptions = {
     store,
-    secret : "mysecretcode",
+    secret : process.env.SECRET,
     resave: false,
     saveUninitialized : true,
     cookie:{
-        expire: Date.now() + 7 * 25 * 60 * 60 * 1000,
+        expires: Date.now() + 7 * 25 * 60 * 60 * 1000,
         maxAge: 7 * 25 * 60 * 60 * 1000,
         httpOnly: true
     },
@@ -119,7 +120,7 @@ app.use("/listings/:id/reviews",reviewRouter);
 
 app.use("/",userRouter);
 
-// --------------------------------------------------------------------------
+// ----------------------------------------------------------------------
 
 // General error responder
 app.all("*",(req,res,next)=>{
